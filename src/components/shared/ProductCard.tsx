@@ -4,7 +4,6 @@ import { IProduct } from "@/types";
 import { BsHeart } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion";
 
 type ProductProps = {
   product: IProduct;

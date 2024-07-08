@@ -1,7 +1,6 @@
 import { useAuth } from "@/lib/stores/authStore";
 import { NavLink, Outlet } from "react-router-dom";
 import { CiLogin } from "react-icons/ci";
-import { CiShoppingCart } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaShippingFast } from "react-icons/fa";
 import { TfiKey } from "react-icons/tfi";
