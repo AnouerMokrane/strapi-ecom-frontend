@@ -21,7 +21,7 @@ import {
   useGetWhishlist,
 } from "@/lib/api/api";
 import useCartStore from "@/lib/stores/cartStore";
-import { IColor, ISize } from "@/types";
+import { IColor, IProduct, ISize } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/stores/authStore";
 import { toast } from "react-toastify";
@@ -50,7 +50,7 @@ const ProductDetailsPage = () => {
   const { mutateAsync: addToWishlist } = useAddWishlist();
   const { data } = useGetWhishlist(user?.email as string);
   const isProductExist = data?.data.find(
-    (w) => w.attributes.product.data.id === id
+    (w: any) => w.attributes.product.data.id === id
   );
   const handleAddToWishlist = async () => {
     if (!isProductExist) {
@@ -311,7 +311,7 @@ const ProductDetailsPage = () => {
                 ]}
               >
                 <CarouselContent>
-                  {similarProducts.data.map((product) => (
+                  {similarProducts.data.map((product: IProduct) => (
                     <CarouselItem
                       key={product.id}
                       className="basis-auto sm:basis-1/3 md:basis-1/4 "

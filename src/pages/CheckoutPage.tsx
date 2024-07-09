@@ -23,7 +23,7 @@ const CheckoutPage = () => {
   const products = data?.data || [];
 
   const subtotals = cartItems.reduce((acc, curr) => {
-    const product = products.find((p) => p.id === curr.id);
+    const product = products.find((p: IProduct) => p.id === curr.id);
     return acc + (product?.attributes.price || 0) * curr.quantity;
   }, 0);
 

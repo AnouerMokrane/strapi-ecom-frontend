@@ -15,7 +15,7 @@ const ProductCard = ({ product }: ProductProps) => {
   const { mutateAsync: addToWishlist } = useAddWishlist();
 
   const isProductExist = data?.data.find(
-    (w) => w.attributes.product.data.id === product.id
+    (w: any) => w.attributes.product.data.id === product.id
   );
 
   const handleAddToWishlist = async () => {

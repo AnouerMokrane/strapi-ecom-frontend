@@ -12,7 +12,7 @@ const WhishList = () => {
     <div>
       <h1 className="text-neutral-black-900 font-semibold pb-4">Wishlist</h1>
       <div className="flex  flex-col gap-5 divide-y-1 mt-8 max-w-lg">
-        {data?.data.map((w) => (
+        {data?.data.map((w: any) => (
           <WishlistItem
             key={w.id}
             product={w?.attributes?.product.data}

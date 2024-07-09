@@ -28,10 +28,10 @@ const FilterSidebar = ({ openSidebar, setOpenSidebar }: FilterSidebarProps) => {
     setPriceRange,
   } = useStore();
 
-  const handleCategoryChange = (e) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const categoryId = e.target.dataset.id;
     const isChecked = e.target.checked;
-    addCategory(categoryId, isChecked);
+    addCategory(categoryId as string, isChecked);
   };
 
   return (
