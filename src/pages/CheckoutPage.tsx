@@ -111,16 +111,13 @@ const CheckoutPage = () => {
             return (
               <React.Fragment key={index}>
                 {isPending ? (
-                  <Skeleton className="w-full h-20 mt-6" />
+                  <Skeleton className="w-full h-24 mt-6" />
                 ) : (
                   <div className=" flex items-center gap-3 text-xs mb-3 ">
                     <div className="w-14 h-14 bg-neutral-white-100 p-1">
                       <img
                         className="w-full h-full object-cover"
-                        src={
-                          import.meta.env.VITE_APP_URL +
-                          product.attributes.images.data[0].attributes.url
-                        }
+                        src={product.attributes.images.data[0].attributes.url}
                         alt=""
                       />
                     </div>

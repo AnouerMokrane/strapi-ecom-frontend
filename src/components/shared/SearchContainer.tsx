@@ -28,7 +28,7 @@ const SearchContainer = ({
           setOpenOverLay(false);
           setOpenSearchContainer(false);
         }}
-        className="absolute top-0 right-0 p-1 bg-neutral-white-200"
+        className="absolute top-0 right-0 p-1 bg-neutral-white-200 z-50"
       >
         <IoMdClose />
       </button>

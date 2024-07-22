@@ -58,16 +58,13 @@ const Cart = () => {
           return (
             <React.Fragment key={index}>
               {isPending ? (
-                <Skeleton className="w-full h-20 mt-6" />
+                <Skeleton className="w-full h-20 " />
               ) : (
                 <div>
                   <div key={index} className="flex items-center gap-4 ">
                     <div className="relative flex justify-center items-center w-20 h-20 bg-neutral-white-100 rounded-sm overflow-hidden">
                       <img
-                        src={
-                          import.meta.env.VITE_APP_URL +
-                          product?.attributes.images.data[0].attributes.url
-                        }
+                        src={product?.attributes.images.data[0].attributes.url}
                         width={55}
                         height={67}
                         alt={product?.attributes.title}

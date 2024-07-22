@@ -63,9 +63,7 @@ const ProductCard = ({ product }: ProductProps) => {
       </button>
       <div className="w-full h-[312px] p-4 bg-neutral-white-100 rounded-md">
         <img
-          src={`${import.meta.env.VITE_APP_URL}${
-            product?.attributes.images.data[0].attributes.url
-          }`}
+          src={`${product?.attributes.images.data[0].attributes.url}`}
           alt=""
           className="w-full h-full object-cover mix-blend-darken"
         />

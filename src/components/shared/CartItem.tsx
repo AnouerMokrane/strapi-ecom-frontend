@@ -29,7 +29,7 @@ const CartItem: React.FC<CartItemProps> = ({
     <div className="flex items-center gap-4 md:p-4">
       <div className="relative flex justify-center items-center w-24 h-20 bg-neutral-white-100 rounded-sm">
         <img
-          src={import.meta.env.VITE_APP_URL + imageUrl}
+          src={imageUrl}
           alt={productName}
           className=" w-[80%] h-[80%]  object-cover "
         />

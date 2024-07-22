@@ -43,10 +43,7 @@ const WishlistItem = ({
     <div key={product.id} className="flex  md:flex-row items-center gap-4">
       <div className="w-20 h-20 bg-neutral-white-100 rounded-sm overflow-hidden">
         <img
-          src={
-            import.meta.env.VITE_APP_URL +
-            (product?.attributes?.images?.data[0]?.attributes?.url || "")
-          }
+          src={product?.attributes?.images?.data[0]?.attributes?.url || ""}
           alt={product?.attributes?.title}
           className="w-full h-full object-cover"
         />

@@ -12,7 +12,7 @@ const SearchItem = ({ name, price, imageUrl }: SearchItemProps) => {
       <div className="flex items-center gap-4 ">
         <div className="relative flex justify-center items-center w-16 h-16 bg-neutral-white-100 rounded-sm">
           <img
-            src={import.meta.env.VITE_APP_URL + imageUrl}
+            src={imageUrl}
             alt="./assets/classic-tees.png"
             className=" w-[80%] h-[80%]  object-cover "
           />

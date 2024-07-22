@@ -92,9 +92,7 @@ const ProductDetailsPage = () => {
           ) : (
             <div className="flex-1 flex justify-center items-center bg-neutral-white-200 max-w-lg  rounded-md">
               <img
-                src={`${import.meta.env.VITE_APP_URL}${
-                  product?.data[0].attributes.images.data[0].attributes.url
-                }`}
+                src={product?.data[0].attributes.images.data[0].attributes.url}
                 alt={product?.data[0].attributes.title}
                 className="w-[300px] object-cover mix-blend-darken"
               />

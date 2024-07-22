@@ -31,7 +31,7 @@ const BottomBar = () => {
         </li>
         <li>
           <Link
-            to={"/profile/orders"}
+            to={"/profile/wishlist"}
             className="flex flex-col items-center gap-1 text-sm "
           >
             <CgProfile className="text-xl" />
