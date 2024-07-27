@@ -4,6 +4,7 @@ type User = {
   jwt?: string;
   id: number;
   username: string;
+  fullName: string;
   email: string;
 };
 
