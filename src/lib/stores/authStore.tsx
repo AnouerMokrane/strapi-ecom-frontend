@@ -6,6 +6,13 @@ type User = {
   username: string;
   fullName: string;
   email: string;
+  shippingAddress: {
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
 };
 
 type State = {

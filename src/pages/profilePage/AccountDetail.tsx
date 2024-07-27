@@ -91,7 +91,7 @@ const AccountDetail = () => {
         </div>
 
         <Button type="submit" className="relative top-5 p-6">
-          {isSubmitting ? "saving..." : "Save Changes"}
+          {isSubmitting ? "Saving..." : "Save Changes"}
         </Button>
       </form>
     </div>
