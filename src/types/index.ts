@@ -64,3 +64,13 @@ export type IUser = {
   email: string;
   password: string;
 };
+
+export type IWishlistItem = {
+  id: number;
+  attributes: {
+    product: {
+      data: IProduct;
+    };
+    createdAt: Date;
+  };
+};
