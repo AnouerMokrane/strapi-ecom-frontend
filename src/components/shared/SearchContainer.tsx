@@ -1,7 +1,9 @@
+import React from "react";
 import { IProduct } from "@/types";
 import SearchItem from "./SearchItem";
 import { IoMdClose } from "react-icons/io";
 import { Skeleton } from "../ui/skeleton";
+import { useDebounce } from "@uidotdev/usehooks";
 import { useGetProducts } from "@/lib/api/api";
 
 type SearchContainerProps = {
@@ -15,47 +17,47 @@ const SearchContainer = ({
   setOpenOverLay,
   searchValue,
 }: SearchContainerProps) => {
-  const { data: products, isPending } = useGetProducts(
-    `/products?populate=*&filters[title][$contains]=${searchValue}`
-  );
+  const debouncedSearch = useDebounce(searchValue, 800);
 
-  const skeletonCount = 4;
+  const searchQuery = debouncedSearch
+    ? `/products?populate=*&filters[title][$containsi]=${debouncedSearch}&pagination[page]=1&pagination[pageSize]=4`
+    : null;
+
+  const { data: products, isPending } = useGetProducts(searchQuery ?? "");
+
+  const handleClose = () => {
+    setOpenOverLay(false);
+    setOpenSearchContainer(false);
+  };
 
   return (
-    <div className="w-[135%] flex flex-col gap-2 absolute top-full mt-2 bg-white p-4 rounded-md shadow-lg z-[200]">
+    <div className="w-[135%] max-h-96 flex flex-col gap-2 absolute top-full mt-2 bg-white p-4 rounded-md shadow-lg z-[200] overflow-y-auto">
       <button
-        onClick={() => {
-          setOpenOverLay(false);
-          setOpenSearchContainer(false);
-        }}
-        className="absolute top-0 right-0 p-1 bg-neutral-white-200 z-50"
+        onClick={handleClose}
+        className="absolute top-0 right-0 p-1 bg-neutral-white-200 z-50 hover:bg-gray-200"
       >
         <IoMdClose />
       </button>
 
-      {isPending ? (
-        <>
-          {Array.from({ length: skeletonCount }).map((_, index) => (
-            <Skeleton key={index} className="w-full h-16" />
-          ))}
-        </>
-      ) : products.data.length <= 0 ? (
-        "no items found"
+      {debouncedSearch ? (
+        isPending ? (
+          <Skeleton className="w-full h-16 mt-4" />
+        ) : products?.data && products.data.length > 0 ? (
+          products.data.map((product: IProduct) => (
+            <SearchItem
+              key={product.id}
+              name={product.attributes.title}
+              price={product.attributes.price}
+              imageUrl={product.attributes.images.data[0].attributes.url}
+            />
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No items found</p>
+        )
       ) : (
-        products?.data.map((product: IProduct) => (
-          <SearchItem
-            key={product?.id}
-            name={product?.attributes.title}
-            price={product?.attributes.price}
-            imageUrl={product.attributes.images.data[0].attributes.url}
-          />
-        ))
-      )}
-
-      {products?.data.length > 0 && (
-        <button className="text-sm text-neutral-black-700 pt-2 underline">
-          Load more...
-        </button>
+        <p className="text-sm text-neutral-black-500 font-medium">
+          Start typing to search...
+        </p>
       )}
     </div>
   );

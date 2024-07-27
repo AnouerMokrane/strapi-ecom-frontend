@@ -42,10 +42,12 @@ const ProductDetailsPage = () => {
   const [quantity, SetQuantity] = useState(1);
   const [selectedSize, SetSelectedSize] = useState("");
   const [selectedColor, SetSelectedColor] = useState("");
-  const id = product?.data[0].id;
+  const id = product?.data[0]?.id;
   const prodcutType = product?.data[0].attributes.productType;
   const { data: similarProducts } = useGetProducts(
-    `/products?populate=*&filters[productType][$eq]=${prodcutType}&filters[id][$not]=${id}`
+    product
+      ? `/products?populate=*&filters[productType][$eq]=${prodcutType}&filters[id][$not]=${product?.data[0]?.id}`
+      : ""
   );
   const { mutateAsync: addToWishlist } = useAddWishlist();
   const { data } = useGetWhishlist(user?.email as string);

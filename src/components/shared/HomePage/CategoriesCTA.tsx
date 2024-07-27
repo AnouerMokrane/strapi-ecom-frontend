@@ -1,11 +1,19 @@
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const CategoriesCTA = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
   return (
-    <section className=" bg-neutral-white-100 mb-20 py-14 md:py-0">
+    <section ref={ref} className=" bg-neutral-white-100 mb-20 py-14 md:py-0">
       <div className="container flex justify-between items-center ">
-        <div className="">
+        <motion.div
+          initial={{ opacity: 0, x: -300 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -300 }}
+          transition={{ duration: 0.5 }}
+        >
           <h3 className="text-xl font-semibold text-neutral-black-900 md:text-2xl">
             Browse Our Fashion Paradise!
           </h3>
@@ -20,14 +28,21 @@ const CategoriesCTA = () => {
             Start Browsing
             <FaArrowRight />
           </Link>
-        </div>
-        <div className="">
-          <img
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 300 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 300 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.img
             src="./assets/Category-Image.png"
             className="hidden md:block w-64 h-80"
             alt=""
+            initial={{ scale: 0.8 }}
+            animate={isInView ? { scale: 1 } : { scale: 0.8 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
