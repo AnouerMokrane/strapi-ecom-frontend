@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -18,7 +18,6 @@ type Inputs = z.infer<typeof userSchema>;
 
 const LoginPage = () => {
   const { setUser, user } = useAuth();
-  const navigate = useNavigate();
 
   const { mutateAsync: login } = useLogin();
 

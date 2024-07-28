@@ -1,6 +1,6 @@
 import { useAddWishlist, useGetWhishlist } from "@/lib/api/api";
 import { useAuth } from "@/lib/stores/authStore";
-import { IProduct } from "@/types";
+import { IProduct, IWishlistItem } from "@/types";
 import { BsHeart } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ const ProductCard = ({ product }: ProductProps) => {
   const { mutateAsync: addToWishlist } = useAddWishlist();
 
   const isProductExist = data?.data.find(
-    (w: any) => w.attributes.product.data.id === product.id
+    (w: IWishlistItem) => w.attributes.product.data.id === product.id
   );
 
   const handleAddToWishlist = async () => {
