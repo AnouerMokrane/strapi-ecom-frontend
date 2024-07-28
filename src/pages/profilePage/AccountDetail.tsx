@@ -33,7 +33,7 @@ const AccountDetail = () => {
     try {
       const response = await updateAccount({ userId: user.id, data });
 
-      if (response.statusText === "OK") {
+      if (response.status === 200) {
         setUser({
           ...user,
           fullName: data.fullName,

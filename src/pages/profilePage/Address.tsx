@@ -45,8 +45,7 @@ const Address = () => {
         },
       });
 
-      if (response.status) {
-        console.log(response);
+      if (response.status === 200) {
         if (user) {
           setUser({
             ...user,
