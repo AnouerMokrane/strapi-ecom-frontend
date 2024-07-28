@@ -45,8 +45,8 @@ const Address = () => {
         },
       });
 
-      if (response.statusText === "OK") {
-        toast.success("Address updated successfully");
+      if (response.status) {
+        console.log(response);
         if (user) {
           setUser({
             ...user,
@@ -59,6 +59,7 @@ const Address = () => {
             },
           });
           reset(data);
+          toast.success("Address updated successfully");
         }
       }
     } catch (error) {
