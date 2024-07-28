@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useUpdateAccountDetail } from "@/lib/api/api";
 import { useAuth } from "@/lib/stores/authStore";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -11,39 +12,40 @@ type AccountDetailForm = {
 
 const AccountDetail = () => {
   const { user, setUser } = useAuth();
+  const { mutateAsync: updateAccount } = useUpdateAccountDetail();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<AccountDetailForm>();
+  } = useForm<AccountDetailForm>({
+    defaultValues: {
+      fullName: user?.fullName,
+      email: user?.email,
+    },
+  });
 
   const onSubmit = async (data: AccountDetailForm) => {
-    const userId = user?.id;
-    const token = localStorage.getItem("jwt");
+    if (!user) {
+      toast.error("User not found");
+      return;
+    }
 
-    const response = await fetch(`http://localhost:1337/api/users/${userId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        fullName: data.fullName,
-        email: data.email,
-      }),
-    });
+    try {
+      const response = await updateAccount({ userId: user.id, data });
 
-    if (response.ok) {
-      if (user) {
+      if (response.statusText === "OK") {
         setUser({
           ...user,
           fullName: data.fullName,
           email: data.email,
         });
+        toast.success("User updated successfully!");
+      } else {
+        toast.error("Error updating user");
       }
-      toast.success("User updated successfully!");
-    } else {
-      console.error("Error updating user:", response.statusText);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      toast.error("Error updating user");
     }
   };
 
@@ -52,7 +54,11 @@ const AccountDetail = () => {
       <h1 className="text-neutral-black-900 font-semibold pb-10">
         Account Details
       </h1>
-      <form className="max-w-xs space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="max-w-xs space-y-4"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
         <div>
           <label
             htmlFor="fullName"
@@ -64,11 +70,17 @@ const AccountDetail = () => {
             id="fullName"
             type="text"
             className="text-sm text-neutral-black-700"
-            defaultValue={user?.fullName}
-            {...register("fullName", { required: true })}
+            {...register("fullName", {
+              required: true,
+              pattern: /^[a-zA-Z ]+$/,
+            })}
           />
           {errors.fullName && (
-            <p className="text-sm text-red-500">Full name is required</p>
+            <p className="text-sm text-red-500">
+              {errors.fullName.type === "required"
+                ? "Full name is required"
+                : "Invalid full name format"}
+            </p>
           )}
         </div>
         <div>
@@ -82,15 +94,25 @@ const AccountDetail = () => {
             id="email"
             type="email"
             className="text-sm text-neutral-black-700"
-            defaultValue={user?.email}
-            {...register("email", { required: true })}
+            {...register("email", {
+              required: true,
+              pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            })}
           />
           {errors.email && (
-            <p className="text-sm text-red-500">Email is required</p>
+            <p className="text-sm text-red-500">
+              {errors.email.type === "required"
+                ? "Email is required"
+                : "Invalid email format"}
+            </p>
           )}
         </div>
 
-        <Button type="submit" className="relative top-5 p-6">
+        <Button
+          type="submit"
+          className="relative top-5 p-6"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Saving..." : "Save Changes"}
         </Button>
       </form>

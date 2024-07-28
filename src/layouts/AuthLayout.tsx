@@ -8,7 +8,7 @@ const AuthLayout = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/profile");
+      navigate("/profile/wishlist");
     }
   }, [user, navigate]);
 

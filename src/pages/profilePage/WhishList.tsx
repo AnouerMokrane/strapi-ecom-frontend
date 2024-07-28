@@ -15,6 +15,8 @@ const WhishList = () => {
           <p>Loading...</p>
         ) : error ? (
           <p>Error: {error.message}</p>
+        ) : data?.data?.length === 0 ? (
+          <p>Your wishlist is empty.</p>
         ) : (
           data?.data.map((w: IWishlistItem) => (
             <WishlistItem

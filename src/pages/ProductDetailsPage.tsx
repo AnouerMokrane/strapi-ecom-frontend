@@ -21,11 +21,12 @@ import {
   useGetWhishlist,
 } from "@/lib/api/api";
 import useCartStore from "@/lib/stores/cartStore";
-import { IColor, IProduct, ISize } from "@/types";
+import { IColor, IProduct, ISize, IWishlistItem } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/stores/authStore";
 import { toast } from "react-toastify";
 import ShareLink from "@/components/ShareLink";
+import { LuLoader2 } from "react-icons/lu";
 
 const ProductDetailsPage = () => {
   const skeletonCount = 3;
@@ -49,10 +50,11 @@ const ProductDetailsPage = () => {
       ? `/products?populate=*&filters[productType][$eq]=${prodcutType}&filters[id][$not]=${product?.data[0]?.id}`
       : ""
   );
-  const { mutateAsync: addToWishlist } = useAddWishlist();
+  const { mutateAsync: addToWishlist, isPending: isAddingToWishlist } =
+    useAddWishlist();
   const { data } = useGetWhishlist(user?.email as string);
   const isProductExist = data?.data.find(
-    (w: any) => w.attributes.product.data.id === id
+    (w: IWishlistItem) => w.attributes.product.data.id === id
   );
   const handleAddToWishlist = async () => {
     if (!isProductExist) {
@@ -255,7 +257,11 @@ const ProductDetailsPage = () => {
                 }}
                 className="group w-12 flex justify-center items-center text-2xl text-neutral-black-500 border rounded-sm duration-300 hover:border-neutral-black-700"
               >
-                <CiHeart className=" duration-300 group-hover:scale-110" />
+                {isAddingToWishlist ? (
+                  <LuLoader2 className="animate-spin" />
+                ) : (
+                  <CiHeart className=" duration-300 group-hover:scale-110" />
+                )}
               </button>
             </div>
             <p className="text-xs text-neutral-black-500 font-medium mt-3 uppercase tracking-wide">

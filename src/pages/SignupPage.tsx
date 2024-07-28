@@ -6,6 +6,7 @@ import * as z from "zod";
 import { useAuth } from "@/lib/stores/authStore";
 import { useSignup } from "@/lib/api/api";
 import { toast } from "react-toastify";
+import { LoaderIcon } from "lucide-react";
 
 const userSchema = z.object({
   username: z.string().trim().min(4, "Username is required"),
@@ -22,7 +23,7 @@ const SignupPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
       username: "",
@@ -124,7 +125,11 @@ const SignupPage = () => {
             Policy
           </div>
           <Button type="submit" className="w-full ">
-            Create account
+            {isSubmitting ? (
+              <LoaderIcon className=" animate-spin" />
+            ) : (
+              "Create account"
+            )}
           </Button>
         </form>
         <div className="text-sm text-center mt-4">

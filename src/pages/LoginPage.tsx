@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useLogin } from "@/lib/api/api";
 import { toast } from "react-toastify";
 import { useAuth } from "@/lib/stores/authStore";
+import { LoaderIcon } from "lucide-react";
 
 const userSchema = z.object({
   email: z.string().email("Invalid email format"),
@@ -24,7 +25,7 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     defaultValues: {
       email: user?.email || "",
@@ -47,10 +48,6 @@ const LoginPage = () => {
         toast.success("Login Successful!", {
           position: "top-center",
         });
-
-        setTimeout(() => {
-          navigate("/profile");
-        }, 2000);
       }
     } catch (error) {
       toast.error(
@@ -120,7 +117,7 @@ const LoginPage = () => {
             Forgot Password?
           </Link>
           <Button type="submit" className="w-full text-sm ms-auto">
-            Login
+            {isSubmitting ? <LoaderIcon className=" animate-spin" /> : "Login"}
           </Button>
         </form>
         <div className="text-sm text-center mt-4">

@@ -162,7 +162,7 @@ export const useAddWishlist = () => {
   });
 };
 
-export const removeWishlist = async (id: number) => {
+const removeWishlist = async (id: number) => {
   return apiClient.delete(`wishlists/${id}`);
 };
 
@@ -173,5 +173,43 @@ export const useDeleteWishlist = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
     },
+  });
+};
+
+const updateAddressShipping = async (variables: {
+  userId: number;
+  data: {
+    shippingAddress: {
+      streetAddress: string;
+      city: string;
+      state: string;
+      zipCode: string;
+      country: string;
+    };
+  };
+}) => {
+  const { userId, data } = variables;
+  return apiClient.put(`users/${userId}`, data);
+};
+
+export const useUpdateAddressShipping = () => {
+  return useMutation({
+    mutationFn: updateAddressShipping,
+  });
+};
+const updateAccountDetail = async (variables: {
+  userId: number;
+  data: {
+    fullName: string;
+    email: string;
+  };
+}) => {
+  const { userId, data } = variables;
+  return apiClient.put(`users/${userId}`, data);
+};
+
+export const useUpdateAccountDetail = () => {
+  return useMutation({
+    mutationFn: updateAccountDetail,
   });
 };

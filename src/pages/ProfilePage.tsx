@@ -11,10 +11,10 @@ const ProfilePage = () => {
 
   const activeClassName = "text-neutral-black-900 bg-neutral-white-100";
   return (
-    <div className="container flex flex-col my-16 md:flex-row py-20">
-      <aside className=" mx-auto pb-5 border-b md:w-52 md:py-20 md:mr-8 md:border-0">
+    <div className="container flex flex-col mb-16 md:flex-row py-20">
+      <aside className=" mx-auto pb-4 border-b md:w-52 md:py-20 md:mr-8 md:border-0">
         <nav>
-          <ul className="flex flex-row items-center gap-4 md:flex-col md:items-stretch">
+          <ul className="flex flex-row items-center gap-6 md:flex-col md:items-stretch">
             <li>
               <NavLink
                 to="wishlist"
@@ -80,7 +80,7 @@ const ProfilePage = () => {
         </nav>
       </aside>
 
-      <div className="relative  p-4 md:pl-16 md:w-3/4">
+      <div className="relative p-4 mt-5 md:pl-16 md:w-3/4">
         <div className="absolute top-0 left-4 hidden w-[1px] h-[423px] bg-neutral-white-200 md:block " />
         <Outlet />
       </div>

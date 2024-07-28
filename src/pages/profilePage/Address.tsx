@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useUpdateAddressShipping } from "@/lib/api/api";
 import { useAuth } from "@/lib/stores/authStore";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -14,25 +16,40 @@ interface AddressForm {
 
 const Address = () => {
   const { user, setUser } = useAuth();
+  const { mutateAsync: updateAddressShipping } = useUpdateAddressShipping();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<AddressForm>();
+    reset,
+  } = useForm<AddressForm>({
+    defaultValues: {
+      streetAddress: user?.shippingAddress?.streetAddress,
+      city: user?.shippingAddress?.city,
+      state: user?.shippingAddress?.state,
+      zipCode: user?.shippingAddress?.zipCode,
+      country: user?.shippingAddress?.country,
+    },
+  });
 
   const onSubmit = async (data: AddressForm) => {
-    const userId = user?.id;
-    const token = localStorage.getItem("jwt");
+    if (!user) {
+      toast.error("User not found");
+      return;
+    }
     try {
-      const response = await fetch(
-        `http://localhost:1337/api/users/${userId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
+      const response = await updateAddressShipping({
+        userId: user.id,
+        data: {
+          shippingAddress: data,
+        },
+      });
+
+      if (response.statusText === "OK") {
+        toast.success("Address updated successfully");
+        if (user) {
+          setUser({
+            ...user,
             shippingAddress: {
               streetAddress: data.streetAddress,
               city: data.city,
@@ -40,28 +57,21 @@ const Address = () => {
               zipCode: data.zipCode,
               country: data.country,
             },
-          }),
-        }
-      );
-
-      if (response.ok) {
-        if (user) {
-          setUser({
-            ...user,
-            shippingAddress: data,
           });
+          reset(data);
         }
-        toast.success("Shipping address updated successfully!");
-      } else {
-        console.error("Error updating shipping address:", response.statusText);
       }
     } catch (error) {
-      console.error("Error updating shipping address:", error);
+      toast.error("Failed to update address");
     }
   };
-
+  useEffect(() => {
+    if (user && user.shippingAddress) {
+      reset(user.shippingAddress);
+    }
+  }, [user, reset]);
   return (
-    <div>
+    <>
       <h1 className="text-neutral-black-900 font-semibold pb-10">
         Shipping address
       </h1>
@@ -76,7 +86,6 @@ const Address = () => {
           <Input
             id="streetAddress"
             className="text-sm text-neutral-black-700"
-            defaultValue={user?.shippingAddress.streetAddress}
             {...register("streetAddress", {
               required: "Street address is required",
             })}
@@ -98,7 +107,6 @@ const Address = () => {
             <Input
               id="city"
               className="text-sm text-neutral-black-700"
-              defaultValue={user?.shippingAddress.city}
               {...register("city", {
                 required: "City is required",
               })}
@@ -117,7 +125,6 @@ const Address = () => {
             <Input
               id="state"
               className="text-sm text-neutral-black-700"
-              defaultValue={user?.shippingAddress.state}
               {...register("state", {
                 required: "State is required",
               })}
@@ -136,7 +143,6 @@ const Address = () => {
             <Input
               id="zipCode"
               className="text-sm text-neutral-black-700"
-              defaultValue={user?.shippingAddress.zipCode}
               {...register("zipCode", {
                 required: "Zip code is required",
                 pattern: {
@@ -159,7 +165,6 @@ const Address = () => {
             <Input
               id="country"
               className="text-sm text-neutral-black-700"
-              defaultValue={user?.shippingAddress.country}
               {...register("country", {
                 required: "Country is required",
               })}
@@ -169,11 +174,11 @@ const Address = () => {
             )}
           </div>
         </div>
-        <Button className="p-6" type="submit">
+        <Button className="p-6" type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Saving..." : "Save Changes"}
         </Button>
       </form>
-    </div>
+    </>
   );
 };
 

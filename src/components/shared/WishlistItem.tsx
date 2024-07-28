@@ -31,12 +31,9 @@ const WishlistItem = ({
       const res = await deleteItem(id);
       if (res.statusText === "OK") {
         toast.success("Product removed from wishlist!");
-        console.log("ok");
-      } else {
-        toast.warn("failed to remove from wishlist");
       }
     } catch (error) {
-      console.log(error);
+      toast.warn("failed to remove from wishlist");
     }
   };
   return (
