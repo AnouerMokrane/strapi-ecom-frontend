@@ -61,11 +61,11 @@ const ProductCard = ({ product }: ProductProps) => {
       >
         <BsHeart />
       </button>
-      <div className="w-full h-[312px] p-4 bg-neutral-white-100 rounded-md">
+      <div className="w-full h-[312px] flex justify-center items-center bg-neutral-white-100 rounded-md">
         <img
           src={`${product?.attributes.images.data[0].attributes.url}`}
           alt=""
-          className="w-full h-full object-cover mix-blend-darken"
+          className="w-64 object-cover mix-blend-darken"
         />
       </div>
       <div className="mt-6">
