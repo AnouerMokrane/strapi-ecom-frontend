@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const BottomBar = () => {
   return (
-    <div className=" sticky bottom-0 bg-white p-4 px-8 border-t lg:hidden">
+    <div className=" sticky bottom-0 bg-white p-4 px-8 border-t lg:hidden md:z-[999]">
       <ul className="flex justify-between">
         <li>
           <Link to={"/"} className="flex flex-col items-center gap-1 text-sm ">

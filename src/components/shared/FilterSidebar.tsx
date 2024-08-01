@@ -36,7 +36,7 @@ const FilterSidebar = ({ openSidebar, setOpenSidebar }: FilterSidebarProps) => {
 
   return (
     <div
-      className={`fixed top-0 flex-grow-0 w-[248px] h-screen bg-white px-4 pt-8 pb-16 mb-6 border rounded-sm z-[100] overflow-y-auto duration-300 lg:block md:sticky md:top-10 md:h-fit ${
+      className={`fixed top-0 flex-grow-0 w-[248px] h-screen bg-white px-4 pt-8 mb-6 border rounded-sm z-[100] overflow-y-auto duration-300 lg:block md:sticky md:top-10 md:h-fit ${
         openSidebar ? "left-0" : "-left-full"
       }`}
     >
