@@ -11,7 +11,7 @@ const MainLayout = () => {
       <NotificationBar />
       <Header />
       <BreadCrumb />
-      <main className=" min-h-[50vh]">
+      <main className=" min-h-[50vh] overflow-hidden">
         <Outlet />
       </main>
       <Footer />

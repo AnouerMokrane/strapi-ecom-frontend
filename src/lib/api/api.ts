@@ -59,6 +59,8 @@ export const useGetData = (key: string, endpoint: string) => {
   return useQuery({
     queryKey: [key],
     queryFn: () => fetchData(endpoint),
+    staleTime: 60000,
+    refetchOnWindowFocus: false,
   });
 };
 export const useGetCategories = () => useGetData("categories", "/categories");
@@ -69,6 +71,7 @@ export const useGetProducts = (filter: string) => {
   return useQuery({
     queryKey: ["products", filter],
     queryFn: () => fetchProducts(filter),
+    staleTime: 60000,
     enabled: !!filter,
   });
 };
@@ -77,6 +80,7 @@ export const useGetProduct = (slug: string) => {
   return useQuery({
     queryKey: ["products", slug],
     queryFn: () => fetchProduct(slug),
+    staleTime: 60000,
   });
 };
 
@@ -133,6 +137,8 @@ export const useGetWhishlist = (email: string) => {
     queryKey: ["wishlist"],
     queryFn: () => getWishlist(email),
     enabled: !!email,
+    staleTime: 60000,
+    refetchOnWindowFocus: false,
   });
 };
 

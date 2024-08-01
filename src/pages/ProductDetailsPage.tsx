@@ -94,7 +94,7 @@ const ProductDetailsPage = () => {
           {isPending ? (
             <Skeleton className="flex-1 max-w-lg py-16 min-h-[500px]" />
           ) : (
-            <div className="flex-1 flex justify-center items-center bg-neutral-white-200 max-w-lg  rounded-md">
+            <div className="flex-1 flex justify-center items-center bg-neutral-white-200 max-w-lg min-h-[400px] rounded-md">
               <img
                 src={product?.data[0].attributes.images.data[0].attributes.url}
                 alt={product?.data[0].attributes.title}
@@ -106,7 +106,7 @@ const ProductDetailsPage = () => {
             {isPending ? (
               <Skeleton className="w-[500px] h-9" />
             ) : (
-              <div className="flex items-center gap-36">
+              <div className="flex justify-between items-center gap-36">
                 <h2 className="text-xl font-bold text-neutral-black-900 sm:text-2xl">
                   {product?.data[0].attributes.title}
                 </h2>
@@ -252,7 +252,9 @@ const ProductDetailsPage = () => {
                   if (!user) {
                     toast.warn("You must sign in first");
                   } else {
-                    handleAddToWishlist();
+                    if (!isPending) {
+                      handleAddToWishlist();
+                    }
                   }
                 }}
                 className="group w-12 flex justify-center items-center text-2xl text-neutral-black-500 border rounded-sm duration-300 hover:border-neutral-black-700"
